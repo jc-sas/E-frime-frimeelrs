@@ -43,6 +43,10 @@ void SerialMavlink::sendQueuedData(uint32_t maxBytesToSend)
 {
 }
 
+void SerialMavlink::event()
+{
+}
+
 #else // ESP-based targets
 
 #define MAVLINK_COMM_NUM_BUFFERS 1
@@ -176,6 +180,11 @@ void SerialMavlink::sendQueuedData(uint32_t maxBytesToSend)
     }
 }
 
+void SerialMavlink::event()
+{
+    this_system_id = config.GetSourceSysId() ? config.GetSourceSysId() : 255;
+    target_system_id = config.GetTargetSysId() ? config.GetTargetSysId() : 1;
+}
 #endif // defined(PLATFORM_STM32)
 
 #endif // defined(TARGET_RX)
